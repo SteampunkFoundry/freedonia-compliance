@@ -28,7 +28,7 @@ podTemplate(
             )
         }
         stage('Install Packages') {
-            container('complianceMasonry') {
+            container('compliance-masonry') {
                 sh 'get'
             }
         }
