@@ -2,14 +2,15 @@ def label = "ImageBuildPod-${UUID.randomUUID().toString()}"
 podTemplate(
        label: label,
        containers: [
-           containerTemplate(name: 'compliance-masonry',
-                       image: 'opencontrolorg/compliance-masonry',
-                       ttyEnabled: true,
-                       command: 'cat',
-                       workingDir:'/opencontrol',
-                       privileged: true)
-           ],
-           volumes: [ hostPathVolume(hostPath: '/home/jenkins/agent/workspace/compliance-masonry-demo_main', mountPath: '/opencontrol') ])
+           containerTemplate(name: 'docker',
+                               image: 'docker:latest',
+                               ttyEnabled: true,
+                               command: 'cat',
+                               envVars: [containerEnvVar(key: 'DOCKER_HOST', value: "unix:///var/run/docker.sock")],
+                               privileged: true)
+                   ],
+           volumes: [ hostPathVolume(hostPath: '/var/run/docker.sock', mountPath: '/var/run/docker.sock') ])
+
 {
     node(label) {
         stage('Clean Workspace') {
@@ -28,11 +29,8 @@ podTemplate(
             )
         }
         stage('Install Packages') {
-            container('compliance-masonry') {
-                sh(
-                    script: "get",
-                    returnStdout: true
-                )
+            container('docker'){
+                docker.run ("--rm -v \"$PWD\":/opencontrol -w /opencontrol opencontrolorg/compliance-masonry get")
             }
         }
     }
