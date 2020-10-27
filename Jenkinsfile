@@ -9,7 +9,7 @@ podTemplate(
                        workingDir:'/opencontrol',
                        privileged: true)
            ],
-           volumes: [ hostPathVolume(hostPath: '/home/jenkins/agent/', mountPath: '/opencontrol') ])
+           volumes: [ hostPathVolume(hostPath: '/home/jenkins/agent/workspace/compliance-masonry-demo_main', mountPath: '/opencontrol') ])
 {
     node(label) {
         stage('Clean Workspace') {
@@ -29,7 +29,10 @@ podTemplate(
         }
         stage('Install Packages') {
             container('compliance-masonry') {
-                sh 'get'
+                sh(
+                    script: "compliance-masonry get",
+                    returnStdout: true
+                )
             }
         }
     }
