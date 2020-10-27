@@ -32,6 +32,7 @@ podTemplate(
             container('docker'){
              docker.image('opencontrolorg/compliance-masonry').withRun('-v \"$PWD\":/opencontrol -w /opencontrol') {
                 }
+                archiveArtifacts artifacts: 'opencontrols/*'
             }
         }
     }
