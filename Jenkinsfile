@@ -2,7 +2,7 @@ def label = "ImageBuildPod-${UUID.randomUUID().toString()}"
 podTemplate(
        label: label,
        containers: [
-           containerTemplate(name: 'complianceMasonry',
+           containerTemplate(name: 'compliance-masonry',
                        image: 'opencontrolorg/compliance-masonry',
                        ttyEnabled: true,
                        command: 'cat',
