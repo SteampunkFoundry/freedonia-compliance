@@ -8,7 +8,8 @@ podTemplate(
                        command: 'cat',
                        workingDir:'/opencontrol',
                        privileged: true)
-           ])
+           ],
+           volumes: [ hostPathVolume(hostPath: '/home/jenkins/agent/', mountPath: '/opencontrol') ])
 {
     node(label) {
         stage('Clean Workspace') {
