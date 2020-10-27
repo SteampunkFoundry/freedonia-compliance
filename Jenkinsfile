@@ -9,7 +9,7 @@ podTemplate(
                        workingDir:'/opencontrol',
                        privileged: true)
            ],
-           volumes: [ hostPathVolume(hostPath: './freedonia-compliance', mountPath: '/opencontrol') ])
+           volumes: [ hostPathVolume(hostPath: '"$PWD"/freedonia-compliance', mountPath: '/opencontrol') ])
 {
     node(label) {
         stage('Clean Workspace') {
