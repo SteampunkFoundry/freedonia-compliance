@@ -30,7 +30,7 @@ podTemplate(
         stage('Install Packages') {
             container('compliance-masonry') {
                 sh(
-                    script: "compliance-masonry get",
+                    script: "get",
                     returnStdout: true
                 )
             }
