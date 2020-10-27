@@ -30,10 +30,8 @@ podTemplate(
         }
         stage('Install Packages') {
             container('docker'){
-             docker.image('opencontrolorg/compliancemasonry').withRun('-v \"$PWD\":/opencontrol -w /opencontrol') {
-                    /* Wait until mysql service is up */
+             docker.image('opencontrolorg/compliance-masonry').withRun('-v \"$PWD\":/opencontrol -w /opencontrol') {
                 }
-                docker.run("--rm -v \"$PWD\":/opencontrol -w /opencontrol opencontrolorg/compliance-masonry get")
             }
         }
     }
