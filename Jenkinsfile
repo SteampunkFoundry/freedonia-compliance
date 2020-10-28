@@ -30,11 +30,11 @@ podTemplate(
         }
         stage('Install Packages') {
             container('docker') {
-                docker.image('opencontrolorg/compliance-masonry').withRun('-v \"$PWD\":/opencontrol -w /opencontrol', 'get'){
+                docker.image('opencontrolorg/compliance-masonry').run('--rm v \"$PWD\":/opencontrol -w /opencontrol', 'get'){
                 }
-                docker.image('opencontrolorg/compliance-masonry').withRun('-v \"$PWD\":/opencontrol -w /opencontrol', 'docs gitbook FredRAMP-low'){
+                docker.image('opencontrolorg/compliance-masonry').run('--rm -v \"$PWD\":/opencontrol -w /opencontrol', 'docs gitbook FredRAMP-low'){
                 }
-                docker.image('beeronbeard/docker-gitbook-pdf').withRun('-v \"$PWD\":/book -v \"$PWD/pdf\":/pdf -e PDF_NAME=fred.pdf' ){
+                docker.image('beeronbeard/docker-gitbook-pdf').run('--rm -v \"$PWD\":/book -v \"$PWD/\":/pdf -e PDF_NAME=fred.pdf' ){
                 }
                 archiveArtifacts artifacts: '**/*'
             }
