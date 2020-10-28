@@ -9,7 +9,7 @@ podTemplate(
                                envVars: [containerEnvVar(key: 'DOCKER_HOST', value: "unix:///var/run/docker.sock")],
                                privileged: true)
                    ],
-           volumes: [ hostPathVolume(hostPath: '/var/run/docker.sock', mountPath: '/var/run/docker.sock')])
+           volumes: [ hostPathVolume(hostPath: '/var/run/docker.sock', mountPath: '/var/run/docker.sock'), hostPathVolume(hostPath: '${WORKSPACE}', mountPath: '/opencontrol')])
 
 {
     node(label) {
