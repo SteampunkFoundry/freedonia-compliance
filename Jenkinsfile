@@ -34,8 +34,9 @@ podTemplate(
                   sh 'pwd'
                   sh 'ls -ltr components/'
                   sh 'ls -ltr components/AU_policy/'
-                  sh 'cp -r -v components/* .'
-                }
+                  sh 'tar -cvf components.tar components'
+
+              }
                 archiveArtifacts artifacts: '*'
 
             }
