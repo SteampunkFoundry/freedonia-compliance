@@ -9,7 +9,7 @@ podTemplate(
                                envVars: [containerEnvVar(key: 'DOCKER_HOST', value: "unix:///var/run/docker.sock")],
                                privileged: true)
                    ],
-           volumes: [ hostPathVolume(hostPath: '/var/run/docker.sock', mountPath: '/var/run/docker.sock'), hostPathVolume(hostPath: '${WORKSPACE}', mountPath: '/opencontrol')])
+           volumes: [ hostPathVolume(hostPath: '/var/run/docker.sock', mountPath: '/var/run/docker.sock')])
 
 {
     node(label) {
@@ -32,7 +32,7 @@ podTemplate(
             container('docker') {
                 sh 'pwd'
                 sh 'ls -ltr /home/jenkins/agent/workspace/compliance-masonry-demo_main'
-                sh 'docker run --rm -v ${WORKSPACE}:/opencontrol -w /opencontrol opencontrolorg/compliance-masonry get'
+                sh 'docker run -v ${WORKSPACE}:/opencontrol -w /opencontrol opencontrolorg/compliance-masonry get'
                 sh 'docker run --rm -v \"$PWD\":/opencontrol -w /opencontrol opencontrolorg/compliance-masonry docs gitbook FredRAMP-low'
                 sh 'docker run --rm -v \"$PWD\":/book -v \"$PWD/pdf\":/pdf -e PDF_NAME=fred.pdf beeronbeard/docker-gitbook-pdf'
                 /*
