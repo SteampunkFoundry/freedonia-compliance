@@ -5,15 +5,17 @@ podTemplate(
                 containerTemplate(name: 'opencontrol',
                         image: 'opencontrolorg/compliance-masonry',
                         ttyEnabled: true,
-                        command: 'cat',
-                        privileged: true),
+                        command: 'cat'
+                ),
                 containerTemplate(name: 'beeronbeard',
                         image: 'beeronbeard/docker-gitbook-pdf',
                         args: '-e PDF_NAME=fred.pdf',
                         ttyEnabled: true,
-                        command: 'cat',
-                        privileged: true)
-        ])
+                        command: 'cat'
+                )
+        ],
+        nodeSelector: 'role=workers'
+)
         {
             node(label) {
                 stage('Clean Workspace') {
@@ -33,11 +35,11 @@ podTemplate(
                 }
                 stage('Install Packages') {
                     container('opencontrol') {
-                        sh 'get'
-                        sh 'docs gitbook FredRAMP-low'
+                        sh("get")
+                        sh("docs gitbook FredRAMP-low")
                     }
                     container('beeronbeard') {
-                        sh 'cd /book && gitbook install && gitbook pdf /book /pdf/$PDF_NAME'
+                        sh("cd /book && gitbook install && gitbook pdf /book /pdf/$PDF_NAME")
                         archiveArtifacts artifacts: '**/*'
                     }
                 }
