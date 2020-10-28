@@ -17,7 +17,7 @@ podTemplate(
                 stage('Install Packages') {
                     container('opencontrol'){
                         sh(
-                                script: "/go/bin/compliance-masonry",
+                                script: "/go/bin/compliance-masonry get",
                                 returnStdout: true
                         ).trim()
                         sh(
