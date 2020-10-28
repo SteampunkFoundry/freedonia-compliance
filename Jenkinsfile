@@ -28,7 +28,7 @@ podTemplate(
                     }
                     container('beeronbeard') {
                         sh(
-                                script: "cd /book && gitbook install && gitbook pdf /book /pdf/fred.pdf",
+                                script: "gitbook install && gitbook pdf . ./pdf/fred.pdf",
                                 returnStdout: true
                         ).trim()
                         archiveArtifacts artifacts: '**/*'
