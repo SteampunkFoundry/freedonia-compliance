@@ -36,9 +36,9 @@ podTemplate(
                     sh 'ls -ltr opencontrols/'
                     sh 'ls -ltr '
                     sh 'tar -cvf components.tar components'
-                  }
+                    archiveArtifacts artifacts: '*'
+
               }
-                archiveArtifacts artifacts: '*'
 
             }
         }
