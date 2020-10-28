@@ -1,44 +1,47 @@
 def label = "ImageBuildPod-${UUID.randomUUID().toString()}"
 podTemplate(
-       label: label,
-       containers: [
-           containerTemplate(name: 'docker',
-                               image: 'docker:latest',
-                               ttyEnabled: true,
-                               command: 'cat',
-                               envVars: [containerEnvVar(key: 'DOCKER_HOST', value: "unix:///var/run/docker.sock")],
-                               privileged: true)
-                   ],
-           volumes: [ hostPathVolume(hostPath: '/var/run/docker.sock', mountPath: '/var/run/docker.sock') ])
-
-{
-    node(label) {
-        stage('Clean Workspace') {
-            cleanWs()
-        }
-        stage("checkout") {
-            checkout(
-                [
-                    $class                           : 'GitSCM',
-                    branches                         : scm.branches,
-                    doGenerateSubmoduleConfigurations: scm.doGenerateSubmoduleConfigurations,
-                    extensions                       : scm.extensions,
-                    submoduleCfg                     : [],
-                    userRemoteConfigs                : scm.userRemoteConfigs
-                ]
-            )
-        }
-        stage('Install Packages') {
-            container('docker') {
-
-                docker.image('opencontrolorg/compliance-masonry').run('--rm -v \"$PWD\":/opencontrol -w /opencontrol', 'get'){
+        label: label,
+        containers: [
+                containerTemplate(name: 'opencontrol',
+                        image: 'opencontrolorg/compliance-masonry',
+                        workingDir: '/home/jenkins',
+                        ttyEnabled: true,
+                        command: 'cat',
+                        privileged: true),
+                containerTemplate(name: 'beeronbeard',
+                        image: 'beeronbeard/docker-gitbook-pdf',
+                        workingDir: '/home/jenkins',
+                        args: '-e PDF_NAME=fred.pdf',
+                        ttyEnabled: true,
+                        command: 'cat',
+                        privileged: true)
+        ])
+        {
+            node(label) {
+                stage('Clean Workspace') {
+                    cleanWs()
                 }
-                docker.image('opencontrolorg/compliance-masonry').run('--rm -v \"$PWD\":/opencontrol -w /opencontrol', 'docs gitbook FredRAMP-low'){
+                stage("checkout") {
+                    checkout(
+                            [
+                                    $class                           : 'GitSCM',
+                                    branches                         : scm.branches,
+                                    doGenerateSubmoduleConfigurations: scm.doGenerateSubmoduleConfigurations,
+                                    extensions                       : scm.extensions,
+                                    submoduleCfg                     : [],
+                                    userRemoteConfigs                : scm.userRemoteConfigs
+                            ]
+                    )
                 }
-                docker.image('beeronbeard/docker-gitbook-pdf').run('--rm -v \"$PWD\":/book -v \"$PWD/\":/pdf -e PDF_NAME=fred.pdf' ){
+                stage('Install Packages') {
+                    container('opencontrol') {
+                        sh 'get'
+                        sh 'docs gitbook FredRAMP-low'
+                    }
+                    container('beeronbeard') {
+                        sh 'cd /book && gitbook install && gitbook pdf /book /pdf/$PDF_NAME'
+                        archiveArtifacts artifacts: '**/*'
+                    }
                 }
-                archiveArtifacts artifacts: '**/*'
             }
         }
-    }
-}
