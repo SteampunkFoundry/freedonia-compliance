@@ -2,7 +2,6 @@ def label = "ImageBuildPod-${UUID.randomUUID().toString()}"
 podTemplate(
         label: label,
         containers: [
-                containerTemplate(name: 'git', image: 'alpine/git', ttyEnabled: true, command: 'cat'),
                 containerTemplate(name: 'opencontrol', image: 'opencontrolorg/compliance-masonry', ttyEnabled: true, command: 'cat'),
                 containerTemplate(name: 'beeronbeard', image: 'beeronbeard/docker-gitbook-pdf', ttyEnabled: true, command: 'cat')
         ],
