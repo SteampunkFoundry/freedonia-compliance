@@ -30,9 +30,10 @@ podTemplate(
         }
         stage('Install Packages') {
             container('docker'){
-             docker.image('opencontrolorg/compliance-masonry get').withRun('--rm -v \"$PWD\":/opencontrol -w /opencontrol') {  c ->
+             docker.image('opencontrolorg/compliance-masonry get').withRun(' -v \"$PWD\":/opencontrol -w /opencontrol') {  c ->
                   sh 'pwd'
                   sh 'ls components/'
+                  sh 'cp -r components/* .'
                 }
 
             }
