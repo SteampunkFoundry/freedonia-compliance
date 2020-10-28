@@ -4,13 +4,11 @@ podTemplate(
         containers: [
                 containerTemplate(name: 'opencontrol',
                         image: 'opencontrolorg/compliance-masonry',
-                        workingDir: '/home/jenkins',
                         ttyEnabled: true,
                         command: 'cat',
                         privileged: true),
                 containerTemplate(name: 'beeronbeard',
                         image: 'beeronbeard/docker-gitbook-pdf',
-                        workingDir: '/home/jenkins',
                         args: '-e PDF_NAME=fred.pdf',
                         ttyEnabled: true,
                         command: 'cat',
