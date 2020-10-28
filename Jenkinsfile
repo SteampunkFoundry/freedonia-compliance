@@ -31,7 +31,7 @@ podTemplate(
                                 script: "gitbook install && gitbook pdf . fred.pdf",
                                 returnStdout: true
                         ).trim()
-                        archiveArtifacts artifacts: '**/*'
+                        archiveArtifacts artifacts: 'fred.pdf'
                     }
                 }
             }
