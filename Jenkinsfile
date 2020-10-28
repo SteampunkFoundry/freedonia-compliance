@@ -36,8 +36,8 @@ podTemplate(
                 sh 'docker run --rm -v \"$PWD\":/opencontrol -w /opencontrol opencontrolorg/compliance-masonry docs gitbook FredRAMP-low'
                 sh 'docker run --rm -v \"$PWD\":/book -v \"$PWD/pdf\":/pdf -e PDF_NAME=fred.pdf beeronbeard/docker-gitbook-pdf'
                 */
-                docker.image('opencontrolorg/compliance-masonry').inside('get'){
-                    ls -ltr
+                docker.image('opencontrolorg/compliance-masonry').inside('--rm','get'){
+
                 }
                 docker.image('opencontrolorg/compliance-masonry').inside('--rm -v \"$PWD\":/opencontrol -w /opencontrol', 'docs gitbook FredRAMP-low'){
                 }
