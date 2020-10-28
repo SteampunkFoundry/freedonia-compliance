@@ -10,12 +10,12 @@ podTemplate(
 )
         {
             node(label) {
-                stage('Clean Workspace') {
+                stage('Clean Workspace'){
                     cleanWs()
                     checkout scm
                 }
                 stage('Install Packages') {
-                    container('opencontrol') {
+                    container('opencontrol'){
                         sh(
                                 script: "get",
                                 returnStdout: true
@@ -27,7 +27,7 @@ podTemplate(
                     }
                     container('beeronbeard') {
                         sh(
-                                script: "cd /book && gitbook install && gitbook pdf /book /pdf/fred.pdf"
+                                script: "cd /book && gitbook install && gitbook pdf /book /pdf/fred.pdf",
                                 returnStdout: true
                         ).trim()
                         archiveArtifacts artifacts: '**/*'
