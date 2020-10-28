@@ -30,6 +30,8 @@ podTemplate(
         }
         stage('Install Packages') {
             container('docker') {
+                sh 'PWD'
+                sh 'ls -ltr /home/jenkins/agent/workspace/compliance-masonry-demo_main'
                 sh 'docker run --rm -v \"$PWD\":/opencontrol -w /opencontrol opencontrolorg/compliance-masonry get'
                 sh 'docker run --rm -v \"$PWD\":/opencontrol -w /opencontrol opencontrolorg/compliance-masonry docs gitbook FredRAMP-low'
                 sh 'docker run --rm -v \"$PWD\":/book -v \"$PWD/pdf\":/pdf -e PDF_NAME=fred.pdf beeronbeard/docker-gitbook-pdf'
