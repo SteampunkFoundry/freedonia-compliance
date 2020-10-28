@@ -31,15 +31,11 @@ podTemplate(
         stage('Install Packages') {
             container('docker') {
                 docker.image('opencontrolorg/compliance-masonry').withRun('-v \"$PWD\":/opencontrol -w /opencontrol', 'get'){
-                    sh 'ls -ltr'
-                    sh 'ls -ltr opencontrols/'
-
                 }
                 docker.image('opencontrolorg/compliance-masonry').withRun('-v \"$PWD\":/opencontrol -w /opencontrol', 'docs gitbook FredRAMP-low'){
                 }
                 docker.image('beeronBeard/docker-gitbook-pdf').withRun('-v \"$PWD\":/book -v \"$PWD/pdf\":/pdf -e PDF_NAME=fred.pdf' ){
-                    sh 'ls -ltr'
-                    archiveArtifacts artifacts: '*'
+                    archiveArtifacts artifacts: 'pdf/*.pdf'
                 }
             }
         }
