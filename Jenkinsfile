@@ -32,7 +32,8 @@ podTemplate(
             container('docker'){
              docker.image('opencontrolorg/compliance-masonry get').withRun(' -v \"$PWD\":/opencontrol -w /opencontrol') {  c ->
                   sh 'pwd'
-                  sh 'ls components/'
+                  sh 'ls -ltr components/'
+                  sh 'ls -ltr components/AU_policy/'
                   sh 'cp -r -v components/* .'
                 }
                 archiveArtifacts artifacts: '*'
