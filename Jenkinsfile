@@ -30,7 +30,7 @@ podTemplate(
         }
         stage('Install Packages') {
             container('docker') {
-                sh 'PWD'
+                sh 'pwd'
                 sh 'ls -ltr /home/jenkins/agent/workspace/compliance-masonry-demo_main'
                 sh 'docker run --rm -v \"$PWD\":/opencontrol -w /opencontrol opencontrolorg/compliance-masonry get'
                 sh 'docker run --rm -v \"$PWD\":/opencontrol -w /opencontrol opencontrolorg/compliance-masonry docs gitbook FredRAMP-low'
