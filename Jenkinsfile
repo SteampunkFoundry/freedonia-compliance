@@ -30,7 +30,8 @@ podTemplate(
         }
         stage('Install Packages') {
             container('docker') {
-                docker.image('opencontrolorg/compliance-masonry').run('--rm v \"$PWD\":/opencontrol -w /opencontrol', 'get'){
+
+                docker.image('opencontrolorg/compliance-masonry').run('--rm -v \"$PWD\":/opencontrol -w /opencontrol', 'get'){
                 }
                 docker.image('opencontrolorg/compliance-masonry').run('--rm -v \"$PWD\":/opencontrol -w /opencontrol', 'docs gitbook FredRAMP-low'){
                 }
