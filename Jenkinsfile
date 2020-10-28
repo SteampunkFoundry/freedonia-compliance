@@ -32,10 +32,10 @@ podTemplate(
             container('docker') {
                 docker.image("opencontrolorg/compliance-masonry").withRun("", "get" ){
                 }
-                docker.image('opencontrolorg/compliance-masonry').inside('--rm -v \"$PWD\":/opencontrol -w /opencontrol', 'docs gitbook FredRAMP-low'){
+               /* docker.image('opencontrolorg/compliance-masonry').inside('--rm -v \"$PWD\":/opencontrol -w /opencontrol', 'docs gitbook FredRAMP-low'){
                 }
                 docker.image('beeronbeard/docker-gitbook-pdf').inside('--rm -v \"$PWD\":/book -v \"$PWD/\":/pdf -e PDF_NAME=fred.pdf' ){
-                }
+                }*/
                 archiveArtifacts artifacts: '**/*'
             }
         }
