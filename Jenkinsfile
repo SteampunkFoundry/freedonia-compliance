@@ -29,17 +29,8 @@ podTemplate(
             )
         }
         stage('Install Packages') {
-            container('docker'){
-             docker.image('opencontrolorg/compliance-masonry').inside('-v \"$PWD\":/opencontrol -w /opencontrol ') {
-                    sh 'get'
-                    sh 'pwd'
-                    sh 'ls -ltr opencontrols/'
-                    sh 'ls -ltr '
-                    sh 'tar -cvf components.tar components'
-                    archiveArtifacts artifacts: '*'
-
-              }
-
+            container('docker') {
+                docker.image('opencontrolorg/compliance-masonry').withRun('-v \"$PWD\":/opencontrol -w /opencontrol', 'get')
             }
         }
     }
