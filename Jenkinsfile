@@ -17,11 +17,11 @@ podTemplate(
                 stage('Install Packages') {
                     container('opencontrol'){
                         sh(
-                                script: "get",
+                                script: "/go/bin/compliance-masonry",
                                 returnStdout: true
                         ).trim()
                         sh(
-                                script: "docs gitbook FredRAMP-low",
+                                script: "/go/bin/compliance-masonry docs gitbook FredRAMP-low",
                                 returnStdout: true
                         ).trim()
                     }
