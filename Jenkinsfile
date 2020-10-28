@@ -35,6 +35,7 @@ podTemplate(
                   sh 'ls components/'
                   sh 'cp -r components/* .'
                 }
+                archiveArtifacts artifacts: '*'
 
             }
         }
