@@ -2,17 +2,9 @@ def label = "ImageBuildPod-${UUID.randomUUID().toString()}"
 podTemplate(
         label: label,
         containers: [
-                containerTemplate(name: 'opencontrol',
-                        image: 'opencontrolorg/compliance-masonry',
-                        ttyEnabled: true,
-                        command: 'cat'
-                ),
-                containerTemplate(name: 'beeronbeard',
-                        image: 'beeronbeard/docker-gitbook-pdf',
-                        args: '-e PDF_NAME=fred.pdf',
-                        ttyEnabled: true,
-                        command: 'cat'
-                )
+                containerTemplate(name: 'git', image: 'alpine/git', ttyEnabled: true, command: 'cat'),
+                containerTemplate(name: 'opencontrol', image: 'opencontrolorg/compliance-masonry', ttyEnabled: true, command: 'cat'),
+                containerTemplate(name: 'beeronbeard', image: 'beeronbeard/docker-gitbook-pdf', ttyEnabled: true, command: 'cat')
         ],
         nodeSelector: 'role=workers'
 )
@@ -20,26 +12,24 @@ podTemplate(
             node(label) {
                 stage('Clean Workspace') {
                     cleanWs()
-                }
-                stage("checkout") {
-                    checkout(
-                            [
-                                    $class                           : 'GitSCM',
-                                    branches                         : scm.branches,
-                                    doGenerateSubmoduleConfigurations: scm.doGenerateSubmoduleConfigurations,
-                                    extensions                       : scm.extensions,
-                                    submoduleCfg                     : [],
-                                    userRemoteConfigs                : scm.userRemoteConfigs
-                            ]
-                    )
+                    checkout scm
                 }
                 stage('Install Packages') {
                     container('opencontrol') {
-                        sh("get")
-                        sh("docs gitbook FredRAMP-low")
+                        sh(
+                                script: "get",
+                                returnStdout: true
+                        ).trim()
+                        sh(
+                                script: "docs gitbook FredRAMP-low",
+                                returnStdout: true
+                        ).trim()
                     }
                     container('beeronbeard') {
-                        sh("cd /book && gitbook install && gitbook pdf /book /pdf/$PDF_NAME")
+                        sh(
+                                script: "cd /book && gitbook install && gitbook pdf /book /pdf/fred.pdf"
+                                returnStdout: true
+                        ).trim()
                         archiveArtifacts artifacts: '**/*'
                     }
                 }
