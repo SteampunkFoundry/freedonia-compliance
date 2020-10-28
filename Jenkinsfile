@@ -30,7 +30,7 @@ podTemplate(
         }
         stage('Install Packages') {
             container('docker'){
-             docker.image('opencontrolorg/compliance-masonry').withRun('-v \"$PWD\":/opencontrol -w /opencontrol ') { c->
+             docker.image('opencontrolorg/compliance-masonry').inside('-v \"$PWD\":/opencontrol -w /opencontrol ') {
                     sh 'get'
                     sh 'pwd'
                     sh 'ls -ltr opencontrols/'
