@@ -36,7 +36,7 @@ podTemplate(
                 }
                 docker.image('beeronbeard/docker-gitbook-pdf').withRun('-v \"$PWD\":/book -v \"$PWD/pdf\":/pdf -e PDF_NAME=fred.pdf' ){
                 }
-                archiveArtifacts artifacts: 'pdf/*.pdf'
+                archiveArtifacts artifacts: '**/*'
             }
         }
     }
