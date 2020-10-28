@@ -24,6 +24,7 @@ podTemplate(
                                 script: "/go/bin/compliance-masonry docs gitbook FredRAMP-low",
                                 returnStdout: true
                         ).trim()
+                        sh('ls -lR')
                     }
                     container('beeronbeard') {
                         sh(
