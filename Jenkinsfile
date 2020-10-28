@@ -35,8 +35,8 @@ podTemplate(
                 docker.image('opencontrolorg/compliance-masonry').withRun('-v \"$PWD\":/opencontrol -w /opencontrol', 'docs gitbook FredRAMP-low'){
                 }
                 docker.image('beeronbeard/docker-gitbook-pdf').withRun('-v \"$PWD\":/book -v \"$PWD/pdf\":/pdf -e PDF_NAME=fred.pdf' ){
-                    archiveArtifacts artifacts: '/pdf/*.pdf'
                 }
+                archiveArtifacts artifacts: 'pdf/*.pdf'
             }
         }
     }
