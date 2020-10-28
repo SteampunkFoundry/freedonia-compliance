@@ -31,7 +31,9 @@ podTemplate(
         stage('Install Packages') {
             container('docker') {
                 docker.image('opencontrolorg/compliance-masonry').withRun('-v \"$PWD\":/opencontrol -w /opencontrol', 'get'){
-
+                    sh 'ls -ltr'
+                    sh 'ls -ltr opencontrols/'
+                    archiveArtifacts artifacts: '*'
                 }
             }
         }
