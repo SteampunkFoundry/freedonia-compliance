@@ -31,7 +31,7 @@ podTemplate(
         stage('Install Packages') {
             container('docker'){
              docker.image('opencontrolorg/compliance-masonry').withRun('-v \"$PWD\":/opencontrol -w /opencontrol opencontrolorg/compliance-masonry') {  c ->
-                  sh 'get'                                                                                                                                                   /* Wait until mysql service is up */
+                  sh 'compliance-masonry get'                                                                                                                                                   /* Wait until mysql service is up */
                 }
                 archiveArtifacts artifacts: '*'
             }
