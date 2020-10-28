@@ -16,23 +16,20 @@ podTemplate(
                 }
                 stage('Install Packages') {
                     container('opencontrol'){
-                        def retunVal=sh(
+                        def returnVal=sh(
                                 script: "/go/bin/compliance-masonry get",
-                                returnStdout: true,
-                                returnStderr: true
+                                returnStdout: true
                         ).trim()
                         echo returnVal
                         sh(
                                 script: "/go/bin/compliance-masonry docs gitbook FredRAMP-low",
-                                returnStdout: true,
-                                returnStderr: true
+                                returnStdout: true
                         ).trim()
                     }
                     container('beeronbeard') {
                         sh(
                                 script: "cd /book && gitbook install && gitbook pdf /book /pdf/fred.pdf",
-                                returnStdout: true,
-                                returnStderr: true
+                                returnStdout: true
                         ).trim()
                         archiveArtifacts artifacts: '**/*'
                     }
